@@ -1206,6 +1206,7 @@ public class Configuration implements Iterable<Map.Entry<String,String>>,
       result = substituteVars(getProps().getProperty(n));
     }
     LOG.warn("[CTEST][GET-PARAM] " + ctestParam); //CTEST
+    System.out.println("[CTEST][GET-PARAM][STDOUT] " + ctestParam);
     return result;
   }
 
@@ -1301,6 +1302,7 @@ public class Configuration implements Iterable<Map.Entry<String,String>>,
       result = getProps().getProperty(n);
     }
     LOG.warn("[CTEST][GET-PARAM] " + ctestParam); //CTEST
+    System.out.println("[CTEST][GET-PARAM][STDOUT] " + ctestParam);
     return result;
   }
 
@@ -1345,10 +1347,12 @@ public class Configuration implements Iterable<Map.Entry<String,String>>,
    * @param value property value.
    */
   public void set(String name, String value) {
+    // System.out.println("SETTING CONFIG PARAM: " + name + " = " + value);
     set(name, value, null);
   }
 
   public void set(String name, String value, String source) {
+    // System.out.println("SETTING CONFIG PARAM: " + name + " = " + value);
     set(name, value, source, true);
   }
   
@@ -1376,7 +1380,10 @@ public class Configuration implements Iterable<Map.Entry<String,String>>,
     if (deprecations.getDeprecatedKeyMap().isEmpty()) {
       getProps();
     }
-    if(log_enabled) LOG.warn("[CTEST][SET-PARAM] " + name + getStackTrace()); //CTEST
+    if(log_enabled) {
+      LOG.warn("[CTEST][SET-PARAM] " + name + getStackTrace()); //CTEST
+      System.out.println("[CTEST][SET-PARAM][STDOUT] " + name + getStackTrace()); //CTEST
+    }
     getOverlay().setProperty(name, value);
     getProps().setProperty(name, value);
     String newSource = (source == null ? "programmatically" : source);
@@ -1387,7 +1394,10 @@ public class Configuration implements Iterable<Map.Entry<String,String>>,
       if(altNames != null) {
         for(String n: altNames) {
           if(!n.equals(name)) {
-            if(log_enabled) LOG.warn("[CTEST][SET-PARAM] " + name + getStackTrace()); //CTEST
+            if(log_enabled) {
+              LOG.warn("[CTEST][SET-PARAM] " + name + getStackTrace()); //CTEST
+              System.out.println("[CTEST][SET-PARAM][STDOUT] " + name + getStackTrace()); //CTEST
+            }
             getOverlay().setProperty(n, value);
             getProps().setProperty(n, value);
             putIntoUpdatingResource(n, new String[] {newSource});
@@ -1399,7 +1409,10 @@ public class Configuration implements Iterable<Map.Entry<String,String>>,
       String[] names = handleDeprecation(deprecationContext.get(), name);
       String altSource = "because " + name + " is deprecated";
       for(String n : names) {
-        if(log_enabled) LOG.warn("[CTEST][SET-PARAM] " + name + getStackTrace()); //CTEST
+        if(log_enabled) {
+          LOG.warn("[CTEST][SET-PARAM] " + name + getStackTrace()); //CTEST
+          System.out.println("[CTEST][SET-PARAM][STDOUT] " + name + getStackTrace()); //CTEST
+        }
         getOverlay().setProperty(n, value);
         getProps().setProperty(n, value);
         putIntoUpdatingResource(n, new String[] {altSource});
@@ -1479,6 +1492,7 @@ public class Configuration implements Iterable<Map.Entry<String,String>>,
       result = substituteVars(getProps().getProperty(n, defaultValue));
     }
     LOG.warn("[CTEST][GET-PARAM] " + ctestParam); //CTEST
+    System.out.println("[CTEST][GET-PARAM][STDOUT] " + ctestParam);
     return result;
   }
 
